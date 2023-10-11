@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="267.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="393.0" fitWidth="266.0" layoutY="1.0" pickOnBounds="true">
+               <image>
+                  <Image url="@signuplogo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="400.0" prefWidth="320.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Text>
+            <Text layoutX="16.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="username" layoutX="146.0" layoutY="34.0" />
+            <TextField fx:id="password" layoutX="146.0" layoutY="89.0" />
+            <Button fx:id="signupButton" layoutX="194.0" layoutY="273.0" mnemonicParsing="false" text="Sign Up">
+               <font>
+                  <Font name="Times New Roman" size="15.0" />
+               </font>
+            </Button>
+            <TextField layoutX="146.0" layoutY="142.0" />
+            <TextField layoutX="147.0" layoutY="200.0" />
+            <Text layoutX="16.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FirstName">
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Text>
+            <Text layoutX="17.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LastName">
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>
