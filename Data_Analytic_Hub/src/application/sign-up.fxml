@@ -39,8 +39,8 @@
                   <Font name="Times New Roman" size="15.0" />
                </font>
             </Button>
-            <TextField layoutX="146.0" layoutY="142.0" />
-            <TextField layoutX="147.0" layoutY="200.0" />
+            <TextField fx:id="firstname" layoutX="146.0" layoutY="142.0" />
+            <TextField fx:id="lastname" layoutX="147.0" layoutY="200.0" />
             <Text layoutX="16.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FirstName">
                <font>
                   <Font name="Times New Roman" size="20.0" />
