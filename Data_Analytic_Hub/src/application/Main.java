@@ -2,6 +2,8 @@ package application;
 	
 import java.sql.Connection;
 import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -25,9 +27,15 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		
+//		PreparedStatement preparedStatement = null;
+//		ResultSet resultSet = null;
 		Connection con = null;
 		try {
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3307/", "root", "admin");
+			con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3307/users", "root", "admin");
+//			preparedStatement = con.prepareStatement("SELECT * FROM login");
+//			resultSet = preparedStatement.executeQuery();
+//			System.out.println(resultSet);
 			if(con!=null) {
 				System.out.println("COnnected");
 				

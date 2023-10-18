@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.266566265060241" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoggedInController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Text layoutX="32.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome!">
+               <font>
+                  <Font name="Times New Roman" size="28.0" />
+               </font>
+            </Text>
+            <Button fx:id="logoutButton" layoutX="509.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
+            <Button fx:id="settingsButton" layoutX="431.0" layoutY="14.0" mnemonicParsing="false" text="Settings" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <AnchorPane layoutY="2.0" prefHeight="90.0" prefWidth="599.0" style="-fx-background-color: #2222;" />
+            <TextField fx:id="postId" layoutX="14.0" layoutY="45.0" prefHeight="26.0" prefWidth="71.0" />
+            <TextField fx:id="postContent" layoutX="107.0" layoutY="45.0" prefHeight="46.0" prefWidth="118.0" />
+            <TextField fx:id="postAuthor" layoutX="243.0" layoutY="45.0" prefHeight="26.0" prefWidth="82.0" />
+            <TextField fx:id="postLikes" layoutX="339.0" layoutY="45.0" prefHeight="26.0" prefWidth="46.0" />
+            <TextField fx:id="postShares" layoutX="399.0" layoutY="45.0" prefHeight="26.0" prefWidth="46.0" />
+            <TextField fx:id="postDate" layoutX="456.0" layoutY="45.0" prefHeight="26.0" prefWidth="59.0" />
+            <Button fx:id="postButton" layoutX="533.0" layoutY="46.0" mnemonicParsing="false" text="Post" />
+            <Text layoutX="36.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="26.80743408203125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="136.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" wrappingWidth="59.200000000000045">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="261.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author" wrappingWidth="46.40000000000009">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="342.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Likes" wrappingWidth="39.200000000000045">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="395.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shares" wrappingWidth="54.399999999999864">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="450.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data-Time" wrappingWidth="71.19999999999999">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <AnchorPane layoutY="91.0" prefHeight="82.0" prefWidth="599.0" style="-fx-background-color: #6342;" />
+            <Text layoutX="39.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="26.80743408203125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField layoutX="11.0" layoutY="131.0" prefHeight="26.0" prefWidth="82.0" />
+            <Button layoutX="115.0" layoutY="132.0" mnemonicParsing="false" text="Delete Post" />
+            <AnchorPane layoutY="173.0" prefHeight="118.0" prefWidth="599.0" style="-fx-background-color: #2245;">
+               <children>
+                  <Text layoutX="321.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top-N-Post" wrappingWidth="102.39999999999998">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <Text layoutX="39.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="26.80743408203125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField layoutX="11.0" layoutY="211.0" prefHeight="26.0" prefWidth="82.0" />
+            <Button layoutX="115.0" layoutY="211.0" mnemonicParsing="false" text="Search Post" />
+            <TextField layoutX="310.0" layoutY="211.0" prefHeight="26.0" prefWidth="102.0" />
+            <Button layoutX="436.0" layoutY="211.0" mnemonicParsing="false" text="Find" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

@@ -48,7 +48,7 @@ public class loginController implements Initializable {
 		signupButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				DBUtils.changeScene(event, "Sign-up.fxml", "SignUp!", null, null, null);
+				DBUtils.changeScene(event,"Sign-up.fxml", "SignUp!", null, null, null);
 			}
 		});
 		
@@ -62,7 +62,7 @@ public class loginController implements Initializable {
     	}
 
 			private  void login(ActionEvent event, String title, String username, String password) {
-				// TODO Auto-generated method stub
+				
 				Connection connection = null;
 				PreparedStatement preparedStatement = null;
 				PreparedStatement ps = null;
@@ -90,9 +90,9 @@ public class loginController implements Initializable {
 								ps.setString(1, password);
 								resultFirstLast = ps.executeQuery();
 								if(resultFirstLast.next()) {
-									String firstname = resultFirstLast.getString("firstname");
-									String lastname = resultFirstLast.getString("lastname");
-									DBUtils.changeScene(event, "logged-in.fxml","Welcome to Dashboard", username , firstname , lastname);
+//									String firstname = resultFirstLast.getString("firstname");
+//									String lastname = resultFirstLast.getString("lastname");
+									DBUtils.changeScene(event, "loggedIn.fxml","Welcome to Dashboard", null , null , null);
 									
 								} 
 								
