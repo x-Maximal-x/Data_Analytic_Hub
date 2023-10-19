@@ -47,14 +47,8 @@ public class Post {
     //, likes, shares, and dateTime
 	@Override
 	public String toString() {
-	    return "Post{" +
-	            "id=" + id +
-	            ", content='" + content + '\'' +
-	            ", author='" + author + '\'' +
-	            ", likes=" + likes +
-	            ", shares=" + shares +
-	            ", dateTime='" + dateTime + '\'' +
-	            '}';
+	    return String.format("Post ID: %d\nContent: %s\nAuthor: %s\nLikes: %d\nShares: %d\nDate and Time: %s",
+	            id, content, author, likes, shares, dateTime);
 	}
 }
 

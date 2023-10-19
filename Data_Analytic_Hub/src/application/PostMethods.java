@@ -17,21 +17,21 @@ public class PostMethods {
 	}
 
 	//The method to add a post to the collection of posts
-	public void addPost(Map<Integer,Post> postMap) {
-		System.out.println("Enter the post id: ");
-        int id = this.sc.nextInt();     
-        this.sc.nextLine();
-        System.out.println("Enter the post content: ");
-        String content = this.sc.nextLine();
-        System.out.println("Enter the post author: ");
-        String author = this.sc.nextLine();
-        System.out.println("Enter the post likes: ");
-        int likes = this.sc.nextInt();
-        System.out.println("Enter the post shares: ");
-        int shares = this.sc.nextInt();
-        this.sc.nextLine();
-        System.out.println("Enter the post date and time(yyyy-MM-dd HH:mm): ");
-        String dateTime = this.sc.nextLine();
+	public static void addPost(Map<Integer,Post> postMap, int id, String content, String author, int likes, int shares, String dateTime) {
+//		System.out.println("Enter the post id: ");
+//        int id = this.sc.nextInt();     
+//        this.sc.nextLine();
+//        System.out.println("Enter the post content: ");
+//        String content = this.sc.nextLine();
+//        System.out.println("Enter the post author: ");
+//        String author = this.sc.nextLine();
+//        System.out.println("Enter the post likes: ");
+//        int likes = this.sc.nextInt();
+//        System.out.println("Enter the post shares: ");
+//        int shares = this.sc.nextInt();
+//        this.sc.nextLine();
+//        System.out.println("Enter the post date and time(yyyy-MM-dd HH:mm): ");
+//        String dateTime = this.sc.nextLine();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         dateFormat.setLenient(false); 
         
@@ -43,6 +43,7 @@ public class PostMethods {
         }
         Post newpost = new Post(id, content, author, likes, shares, dateTime);
         postMap.put(id, newpost);
+        System.out.println("Post added");
 	}
 	
 	//The method to Delete a post in the collection of posts

@@ -28,14 +28,11 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-//		PreparedStatement preparedStatement = null;
-//		ResultSet resultSet = null;
+		
 		Connection con = null;
 		try {
 			con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3307/users", "root", "admin");
-//			preparedStatement = con.prepareStatement("SELECT * FROM login");
-//			resultSet = preparedStatement.executeQuery();
-//			System.out.println(resultSet);
+			
 			if(con!=null) {
 				System.out.println("COnnected");
 				

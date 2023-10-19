@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.18090452261306533" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.toplikesController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="90.0" prefWidth="598.0">
+         <children>
+            <Label layoutX="171.0" layoutY="14.0" text="Top Liked Posts">
+               <font>
+                  <Font name="Times New Roman" size="31.0" />
+               </font>
+            </Label>
+            <Button fx:id="backButton" layoutX="493.0" layoutY="19.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Back">
+               <font>
+                  <Font size="13.0" />
+               </font></Button>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="598.0">
+         <children>
+            <TextArea fx:id="output" layoutX="14.0" layoutY="28.0" prefHeight="274.0" prefWidth="568.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

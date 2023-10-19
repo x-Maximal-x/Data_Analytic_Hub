@@ -3,26 +3,40 @@ package application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-//import Application.PostMethods;
-//import application.Post;
+
+
+
 
 public class LoggedInController implements Initializable {
 	
 	
 	Map<Integer, Post> postMap = loadFile("posts.csv");
+	
     // Load the posts from the csv file
     public static Map<Integer, Post> loadFile(String csvFile) {
     	
@@ -80,12 +94,32 @@ public class LoggedInController implements Initializable {
     @FXML
     private Button postButton;
     
+    @FXML
+    private Button findButton;
+    
+    @FXML
+    private TextField numberOf;
+    
+    @FXML
+    private TextField deleteId;
+    
+    @FXML
+    private Button deleteButton;
+    
+    @FXML
+    private Button exportButton;
+    
+    @FXML
+    private TextField exportId;
+    
     
     
     
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	
+
 
     	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -96,17 +130,156 @@ public class LoggedInController implements Initializable {
 		});
     	
     	postButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				//DBUtils.changeScene(event, "login.fxml", "LogIn", null, null, null);
-				//PostMethods add = new PostMethods(); 
-			       //add.addPost(postMap);
-			}
-		});
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	        try {
+    	            int id = Integer.parseInt(postId.getText());
+    	            int likes = Integer.parseInt(postLikes.getText());
+    	            int shares = Integer.parseInt(postShares.getText());
+    	            String content = postContent.getText(); // Assuming you have postContent TextField
+    	            String author = postAuthor.getText(); // Assuming you have postAuthor TextField
+    	            String dateTime = postDate.getText(); // Assuming you have postDate TextField
+
+    	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    	            dateFormat.setLenient(false);
+
+    	            try {
+    	                Date parsedDate = dateFormat.parse(dateTime);
+    	                System.out.println("Input date and time is valid: " + parsedDate);
+
+    	                // Create and add the new post to the map
+    	                Post newPost = new Post(id, content, author, likes, shares, dateTime);
+    	                postMap.put(id, newPost);
+    	                System.out.println("Post added"+id+content+author+likes+shares+dateTime);
+    	            } catch (ParseException e) {
+    	                System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            System.out.println("Invalid input");
+    	        }
+    	    }
+    	});
+    	
+    	
+    	deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	        try {
+    	            int id = Integer.parseInt(postId.getText());
+    	            if (postMap.containsKey(id)) {
+    	                postMap.remove(id);
+    	                System.out.println("Post deleted successfully");
+    	            } else {
+    	                System.out.println("Sorry, the post does not exist in the Collection!");
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            System.out.println("Invalid input");
+    	        }
+    	    }
+    	});
+
+    	
+    	exportButton.setOnAction(new EventHandler<ActionEvent>() {
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	        try {
+    	            int postIdToExport = Integer.parseInt(exportId.getText()); 
+    	            Post postToExport = postMap.get(postIdToExport);
+
+    	            if (postToExport != null) {
+    	                FileChooser fileChooser = new FileChooser();
+    	                fileChooser.setTitle("Save Post as CSV");
+    	                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+    	                // Show the save file dialog and get the selected file
+    	                File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+
+    	                if (file != null) {
+    	                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+    	                    	 String csvData = String.format("%d,%s,%s,%d,%d,%s%n",
+    	                                 postToExport.getId(), postToExport.getContent(),
+    	                                 postToExport.getAuthor(), postToExport.getLikes(),
+    	                                 postToExport.getShares(), postToExport.getDateTime());
+
+    	                         writer.write(csvData);
+
+    	                        System.out.println("Post with ID " + postIdToExport + " has been exported to " + file.getAbsolutePath());
+    	                    } catch (IOException e) {
+    	                        System.err.println("Error writing to the file: " + e.getMessage());
+    	                    }
+    	                } else {
+    	                    System.out.println("Export canceled by the user.");
+    	                }
+    	            } else {
+    	                System.out.println("Post with ID " + postIdToExport + " not found.");
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            System.out.println("Invalid input in the Post ID field.");
+    	        }
+    	    }
+    	});
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	findButton.setOnAction(new EventHandler<ActionEvent>() {
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	    
+    	    	
+    	    	
+    	        try {
+    	            int n = Integer.parseInt(numberOf.getText());
+    	            StringBuilder Content = new StringBuilder();
+    	            for (int i = 0; i < n; i++) {
+    	                int max = 0;
+    	                int id = 0;
+    	                for (Map.Entry<Integer, Post> entry : postMap.entrySet()) {
+    	                    if (entry.getValue().getLikes() > max) {
+    	                        max = entry.getValue().getLikes();
+    	                        id = entry.getValue().getId();
+    	                    }
+    	                }
+    	                Content.append(postMap.get(id)).append("\n\n");
+    	                postMap.remove(id);
+    	            }
+ 
+    	            try {
+    	                FXMLLoader loader = new FXMLLoader(getClass().getResource("toplikes.fxml"));
+    	                Parent root = loader.load();
+    	            
+    	            toplikesController toplikescontroller = loader.getController();
+    	            toplikescontroller.setResultContent(Content.toString());
+
+    	            // Show the new page
+    	            Stage stage = (Stage) findButton.getScene().getWindow();
+    	            Scene scene = new Scene(root);
+    	            stage.setScene(scene);
+    	            stage.show();
+    	            } catch (IOException e) {
+    	                e.printStackTrace(); // Handle the exception as needed
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            // Handle the case where the input in numberOf is not a valid integer.
+    	            System.err.println("Invalid input in numberOf: " + numberOf.getText());
+    	        }
+    	    }
+    	});
+
+
     }
 
-    public void setUserInformation(String firstname, String lastname) {
-        welcomeLabel.setText("Welcome " + firstname + lastname+ "!");
-    }
+//    public void setUserInformation(String firstname, String lastname) {
+//        welcomeLabel.setText("Welcome " + firstname + lastname+ "!");
+//    }
 
 }
