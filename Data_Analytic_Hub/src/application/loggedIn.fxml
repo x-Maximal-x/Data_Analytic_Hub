@@ -60,7 +60,16 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <AnchorPane layoutY="91.0" prefHeight="82.0" prefWidth="599.0" style="-fx-background-color: #6342;" />
+            <AnchorPane layoutY="91.0" prefHeight="82.0" prefWidth="599.0" style="-fx-background-color: #6342;">
+               <children>
+                  <TextField fx:id="getpostId" layoutX="300.0" layoutY="41.0" prefHeight="25.0" prefWidth="102.0" />
+                  <Button fx:id="getpostButton" layoutX="440.0" layoutY="39.0" mnemonicParsing="false" text="Get Post" />
+                  <Text layoutX="338.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="26.80743408203125">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children></AnchorPane>
             <Text layoutX="39.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="26.80743408203125">
                <font>
                   <Font size="14.0" />

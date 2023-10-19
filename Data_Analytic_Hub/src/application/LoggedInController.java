@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -113,7 +115,11 @@ public class LoggedInController implements Initializable {
     private TextField exportId;
     
     
+    @FXML
+    private TextField getpostId;
     
+    @FXML
+    private  Button getpostButton;
     
 
     @Override
@@ -128,6 +134,37 @@ public class LoggedInController implements Initializable {
 				
 			}
 		});
+    	
+    	
+    	
+    	getpostButton.setOnAction(new EventHandler<ActionEvent>() {
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	        try {
+    	            int id = Integer.parseInt(getpostId.getText());
+    	            if (postMap.containsKey(id)) {
+    	                Object postContent = postMap.get(id);
+    	                showAlert(AlertType.INFORMATION, "Post Content", postContent.toString());
+    	            } else {
+    	                showAlert(AlertType.ERROR, "Post Not Found", "Sorry, the post does not exist in the Collection!");
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
+    	        }
+    	    }
+
+    	    private void showAlert(AlertType alertType, String title, String content) {
+    	        Alert alert = new Alert(alertType);
+    	        alert.setTitle(title);
+    	        alert.setHeaderText(null);
+    	        alert.setContentText(content);
+    	        alert.showAndWait();
+    	    }
+    	});
+
+    	
+    
+    	
     	
     	postButton.setOnAction(new EventHandler<ActionEvent>() {
     	    @Override
