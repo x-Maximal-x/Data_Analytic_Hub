@@ -166,54 +166,75 @@ public class LoggedInController implements Initializable {
     
     	
     	
-    	postButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	        try {
-    	            int id = Integer.parseInt(postId.getText());
-    	            int likes = Integer.parseInt(postLikes.getText());
-    	            int shares = Integer.parseInt(postShares.getText());
-    	            String content = postContent.getText(); // Assuming you have postContent TextField
-    	            String author = postAuthor.getText(); // Assuming you have postAuthor TextField
-    	            String dateTime = postDate.getText(); // Assuming you have postDate TextField
 
-    	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    	            dateFormat.setLenient(false);
-
-    	            try {
-    	                Date parsedDate = dateFormat.parse(dateTime);
-    	                System.out.println("Input date and time is valid: " + parsedDate);
-
-    	                // Create and add the new post to the map
-    	                Post newPost = new Post(id, content, author, likes, shares, dateTime);
-    	                postMap.put(id, newPost);
-    	                System.out.println("Post added"+id+content+author+likes+shares+dateTime);
-    	            } catch (ParseException e) {
-    	                System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
-    	            }
-    	        } catch (NumberFormatException e) {
-    	            System.out.println("Invalid input");
-    	        }
-    	    }
-    	});
+		postButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+		        try {
+		            int id = Integer.parseInt(postId.getText());
+		            int likes = Integer.parseInt(postLikes.getText());
+		            int shares = Integer.parseInt(postShares.getText());
+		            String content = postContent.getText();
+		            String author = postAuthor.getText();
+		            String dateTime = postDate.getText();
+		
+		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		            dateFormat.setLenient(false);
+		
+		            try {
+		                Date parsedDate = dateFormat.parse(dateTime);
+		                String result = "Input date and time is valid: " + parsedDate;
+		
+		                // Create and add the new post to the map
+		                Post newPost = new Post(id, content, author, likes, shares, dateTime);
+		                postMap.put(id, newPost);
+		
+		                result += "\nPost added: ID=" + id + ", Content=" + content + ", Author=" + author + ", Likes=" + likes + ", Shares=" + shares + ", Date/Time=" + dateTime;
+		
+		                showAlert(AlertType.INFORMATION, "Post Added", result);
+		            } catch (ParseException e) {
+		                showAlert(AlertType.ERROR, "Invalid Date/Time", "Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+		            }
+		        } catch (NumberFormatException e) {
+		            showAlert(AlertType.ERROR, "Invalid Input", "Please enter valid numeric values for ID, Likes, and Shares.");
+		        }
+		    }
+		
+		    private void showAlert(AlertType alertType, String title, String content) {
+		        Alert alert = new Alert(alertType);
+		        alert.setTitle(title);
+		        alert.setHeaderText(null);
+		        alert.setContentText(content);
+		        alert.showAndWait();
+		    }
+		});
     	
     	
-    	deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	        try {
-    	            int id = Integer.parseInt(postId.getText());
-    	            if (postMap.containsKey(id)) {
-    	                postMap.remove(id);
-    	                System.out.println("Post deleted successfully");
-    	            } else {
-    	                System.out.println("Sorry, the post does not exist in the Collection!");
-    	            }
-    	        } catch (NumberFormatException e) {
-    	            System.out.println("Invalid input");
-    	        }
-    	    }
-    	});
+		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+		        try {
+		            int id = Integer.parseInt(deleteId.getText());
+		            if (postMap.containsKey(id)) {
+		                postMap.remove(id);
+		                showAlert(AlertType.INFORMATION, "Post Deleted", "Post with ID " + id + " has been deleted successfully.");
+		            } else {
+		                showAlert(AlertType.ERROR, "Post Not Found", "Post with ID " + id + " does not exist in the Collection.");
+		            }
+		        } catch (NumberFormatException e) {
+		            showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
+		        }
+		    }
+
+		    private void showAlert(AlertType alertType, String title, String content) {
+		        Alert alert = new Alert(alertType);
+		        alert.setTitle(title);
+		        alert.setHeaderText(null);
+		        alert.setContentText(content);
+		        alert.showAndWait();
+		    }
+		});
+
 
     	
     	exportButton.setOnAction(new EventHandler<ActionEvent>() {
