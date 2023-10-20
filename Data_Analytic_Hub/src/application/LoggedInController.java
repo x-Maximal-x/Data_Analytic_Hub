@@ -1,5 +1,7 @@
 package application;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,13 +24,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 
 
@@ -121,6 +121,12 @@ public class LoggedInController implements Initializable {
     @FXML
     private  Button getpostButton;
     
+    @FXML
+    private  Button vipaccessButton;
+    
+    @FXML
+    private  Button updradeButton;
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,6 +140,50 @@ public class LoggedInController implements Initializable {
 				
 			}
 		});
+    	
+    	
+    	
+    	vipaccessButton.setOnAction(new EventHandler<ActionEvent>() {
+    	    @Override
+    	    public void handle(ActionEvent event) {
+    	        
+    	            int low = 0;
+    	            int med = 0;
+    	            int high = 0;
+    	            
+    	            // Iterate through the postMap to categorize shares
+    	            for (Post post : postMap.values()) {
+    	                int shares = post.getShares();
+    	                if (shares >= 1000) {
+    	                    high++;
+    	                } else if (shares >= 100) {
+    	                    med++;
+    	                } else {
+    	                    low++;
+    	                }
+    	            }
+    	            
+    	            try {
+    	                FXMLLoader loader = new FXMLLoader(getClass().getResource("vipAccess.fxml"));
+    	                Parent root = loader.load();
+    	                
+    	                // Get the controller instance
+    	                vipAccessController vipaccesscontroller = loader.getController();
+    	                
+    	                // Call the method on the controller
+    	                vipaccesscontroller.setPieChartContent(low, med, high);
+
+    	                Scene scene = new Scene(root);
+    	                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	                currentStage.setScene(scene);
+    	                currentStage.setTitle("VIP ACCESS");
+    	                currentStage.show();
+    	            } catch (IOException e) {
+    	                e.printStackTrace();
+    	            }
+    	        }
+    	    });
+
     	
     	
     	
@@ -278,15 +328,7 @@ public class LoggedInController implements Initializable {
     	});
     	
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
+   
     	
     	
     	findButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -319,15 +361,16 @@ public class LoggedInController implements Initializable {
     	            toplikescontroller.setResultContent(Content.toString());
 
     	            // Show the new page
-    	            Stage stage = (Stage) findButton.getScene().getWindow();
     	            Scene scene = new Scene(root);
-    	            stage.setScene(scene);
-    	            stage.show();
-    	            } catch (IOException e) {
-    	                e.printStackTrace(); // Handle the exception as needed
-    	            }
+    	            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	            currentStage.setScene(scene);
+    	            currentStage.setTitle("Top Likes");
+    	            currentStage.show();
+    	        } catch (IOException e) {
+    	            e.printStackTrace();
+    	        }
     	        } catch (NumberFormatException e) {
-    	            // Handle the case where the input in numberOf is not a valid integer.
+    	            
     	            System.err.println("Invalid input in numberOf: " + numberOf.getText());
     	        }
     	    }
@@ -336,8 +379,12 @@ public class LoggedInController implements Initializable {
 
     }
 
-//    public void setUserInformation(String firstname, String lastname) {
-//        welcomeLabel.setText("Welcome " + firstname + lastname+ "!");
-//    }
+    public void setUserInformation(String username) {
+        welcomeLabel.setText("Welcome " + username + "!");
+    }
+   
+    
 
+    
+    
 }

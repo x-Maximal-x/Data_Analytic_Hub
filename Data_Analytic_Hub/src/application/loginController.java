@@ -4,12 +4,14 @@ package application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 public class loginController implements Initializable {
@@ -74,7 +78,7 @@ public class loginController implements Initializable {
 					preparedStatement = connection.prepareStatement("SELECT password FROM login WHERE username = ?");
 					preparedStatement.setString(1, username);
 					resultSet = preparedStatement.executeQuery();
-					//System.out.println(resultSet);
+					
 					
 					if (!resultSet.isBeforeFirst()) {
 						System.out.println("User not found in DB");
@@ -92,8 +96,22 @@ public class loginController implements Initializable {
 								if(resultFirstLast.next()) {
 //									String firstname = resultFirstLast.getString("firstname");
 //									String lastname = resultFirstLast.getString("lastname");
-									DBUtils.changeScene(event, "loggedIn.fxml","Welcome to Dashboard", null , null , null);
-									
+									//DBUtils.changeScene(event, "loggedIn.fxml","Welcome to Dashboard", null , null , null);
+									try {
+				    	                FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedIn.fxml"));
+				    	                Parent root = loader.load();
+				    	            
+				    	            LoggedInController loggedInController = loader.getController();
+				    	            loggedInController.setUserInformation(username.toString());
+
+				    	            // Show the new page
+				    	            Stage stage = (Stage) loginButton.getScene().getWindow();
+				    	            Scene scene = new Scene(root);
+				    	            stage.setScene(scene);
+				    	            stage.show();
+				    	            } catch (IOException e) {
+				    	                e.printStackTrace();
+				    	            }
 								} 
 								
 
