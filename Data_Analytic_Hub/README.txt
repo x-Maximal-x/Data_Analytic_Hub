@@ -9,6 +9,10 @@ JavaFX: This project uses JavaFX-17.0.8 for the graphical user interface.
 MySQL Database: The project connects to a MySQL Version 8.0.34 database for user authentication . 
 
 
+GitHub Repository Location : https://github.com/x-Maximal-x/Data_Analytic_Hub
+
+
+
 Installation and Running the Code
 
 
