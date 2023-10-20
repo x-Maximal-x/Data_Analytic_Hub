@@ -339,46 +339,63 @@ public class LoggedInController implements Initializable {
 
 
     	
-    	exportButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	        try {
-    	            int postIdToExport = Integer.parseInt(exportId.getText()); 
-    	            Post postToExport = postMap.get(postIdToExport);
+		exportButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+		        try {
+		            int postIdToExport = Integer.parseInt(exportId.getText());
+		            Post postToExport = postMap.get(postIdToExport);
 
-    	            if (postToExport != null) {
-    	                FileChooser fileChooser = new FileChooser();
-    	                fileChooser.setTitle("Save Post as CSV");
-    	                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+		            if (postToExport != null) {
+		                FileChooser fileChooser = new FileChooser();
+		                fileChooser.setTitle("Save Post as CSV");
+		                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 
-    	                // Show the save file dialog and get the selected file
-    	                File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+		                // Show the save file dialog and get the selected file
+		                File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
 
-    	                if (file != null) {
-    	                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-    	                    	 String csvData = String.format("%d,%s,%s,%d,%d,%s%n",
-    	                                 postToExport.getId(), postToExport.getContent(),
-    	                                 postToExport.getAuthor(), postToExport.getLikes(),
-    	                                 postToExport.getShares(), postToExport.getDateTime());
+		                if (file != null) {
+		                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+		                        String csvData = String.format("%d,%s,%s,%d,%d,%s%n",
+		                                postToExport.getId(), postToExport.getContent(),
+		                                postToExport.getAuthor(), postToExport.getLikes(),
+		                                postToExport.getShares(), postToExport.getDateTime());
 
-    	                         writer.write(csvData);
+		                        writer.write(csvData);
 
-    	                        System.out.println("Post with ID " + postIdToExport + " has been exported to " + file.getAbsolutePath());
-    	                    } catch (IOException e) {
-    	                        System.err.println("Error writing to the file: " + e.getMessage());
-    	                    }
-    	                } else {
-    	                    System.out.println("Export canceled by the user.");
-    	                }
-    	            } else {
-    	                System.out.println("Post with ID " + postIdToExport + " not found.");
-    	            }
-    	        } catch (NumberFormatException e) {
-    	            System.out.println("Invalid input in the Post ID field.");
-    	        }
-    	    }
-    	});
-    	
+		                        String successMessage = "Post with ID " + postIdToExport + " has been exported to " + file.getAbsolutePath();
+		                        
+		                      
+		                        showAlert(AlertType.INFORMATION, "Export Successful", successMessage);
+		                    } catch (IOException e) {
+		                        System.err.println("Error writing to the file: " + e.getMessage());
+		                    }
+		                } else {
+		                    System.out.println("Export canceled by the user.");
+		                }
+		            } else {
+		                String errorMessage = "Post with ID " + postIdToExport + " not found.";
+		                
+		               
+		                showAlert(AlertType.ERROR, "Export Failed", errorMessage);
+		            }
+		        } catch (NumberFormatException e) {
+		            String errorMessage = "Invalid input in the Post ID field.";
+		            
+		          
+		            showAlert(AlertType.ERROR, "Export Failed", errorMessage);
+		        }
+		    }
+		    
+		    private void showAlert(AlertType alertType, String title, String content) {
+		        Alert alert = new Alert(alertType);
+		        alert.setTitle(title);
+		        alert.setHeaderText(null);
+		        alert.setContentText(content);
+		        alert.showAndWait();
+		    }
+		});
+
     	
    
     	
