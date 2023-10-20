@@ -36,15 +36,19 @@ import java.util.Map;
 
 public class LoggedInController implements Initializable {
 	
+	//private String currentUser;
+	
+	
+	
+	
 	
 	Map<Integer, Post> postMap = loadFile("posts.csv");
 	
     // Load the posts from the csv file
-    public static Map<Integer, Post> loadFile(String csvFile) {
-    	
+	public static Map<Integer, Post> loadFile(String csvFilePath) {
         Map<Integer, Post> postMap = new HashMap<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(csvFile));
+            BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
             String line;
             br.readLine();
             while ((line = br.readLine()) != null) {
@@ -57,7 +61,7 @@ public class LoggedInController implements Initializable {
                     int shares = Integer.parseInt(data[4].trim());
                     String dateTime = data[5].trim();
 
-                    Post post = new Post(id,content,author,likes,shares,dateTime);
+                    Post post = new Post(id, content, author, likes, shares, dateTime);
                     postMap.put(id, post);
                 }
             }
@@ -66,8 +70,12 @@ public class LoggedInController implements Initializable {
             e.printStackTrace();
         }
         return postMap;
-
     }
+
+    
+    
+    
+
 
     @FXML
     private Button logoutButton;
@@ -122,10 +130,13 @@ public class LoggedInController implements Initializable {
     private  Button getpostButton;
     
     @FXML
-    private  Button vipaccessButton;
+    private  Button piechartviewButton;
     
     @FXML
     private  Button updradeButton;
+    
+    @FXML
+    private  Button importButton;
     
 
     @Override
@@ -142,8 +153,38 @@ public class LoggedInController implements Initializable {
 		});
     	
     	
+    	 importButton.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                 FileChooser fileChooser = new FileChooser();
+                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+                 File selectedFile = fileChooser.showOpenDialog(null);
+
+                 if (selectedFile != null) {
+                     Map<Integer, Post> importedPosts = loadFile(selectedFile.getAbsolutePath());
+
+                     // Add the imported posts to the existing postMap
+                     postMap.putAll(importedPosts);
+
+                     showAlert(AlertType.INFORMATION, "Import Successful", "Data from the selected CSV file has been imported.");
+                 }
+             
+             
+             }
+             private void showAlert(AlertType alertType, String title, String content) {
+ 		        Alert alert = new Alert(alertType);
+ 		        alert.setTitle(title);
+ 		        alert.setHeaderText(null);
+ 		        alert.setContentText(content);
+ 		        alert.showAndWait();
+ 		    }
+             
+         });
+    	 
     	
-    	vipaccessButton.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    
+    	piechartviewButton.setOnAction(new EventHandler<ActionEvent>() {
     	    @Override
     	    public void handle(ActionEvent event) {
     	        
