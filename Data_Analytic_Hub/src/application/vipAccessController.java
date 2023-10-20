@@ -15,33 +15,20 @@ public class vipAccessController implements Initializable {
 
     @FXML
     private Button backButton;
-    
-   
-    
-    
-    
-    
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	
-    	backButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				DBUtils.changeScene(event, "loggedIn.fxml", "LogIn", null, null, null);
-				
-			}
-		});   	  	
- 	  	
-    	
-        
+        // Event handler for the Back button
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DBUtils.changeScene(event, "loggedIn.fxml", "LogIn", null, null, null);
+            }
+        });
     }
 
-    
-    
-    
-    
     public void setPieChartContent(int low, int med, int high) {
+        // Set PieChart data based on the counts for different share ranges
         piechart.getData().add(new PieChart.Data("0-99 Shares", low));
         piechart.getData().add(new PieChart.Data("100-999 Shares", med));
         piechart.getData().add(new PieChart.Data("1000+ Shares", high));

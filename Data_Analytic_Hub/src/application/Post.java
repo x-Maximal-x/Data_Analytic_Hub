@@ -43,8 +43,7 @@ public class Post {
 		return this.dateTime;
 	}
 	
-	// The setters for the id, content, author
-    //, likes, shares, and dateTime
+
 	@Override
 	public String toString() {
 	    return String.format("Post ID: %d\nContent: %s\nAuthor: %s\nLikes: %d\nShares: %d\nDate and Time: %s",

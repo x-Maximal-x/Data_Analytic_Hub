@@ -30,22 +30,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
 public class LoggedInController implements Initializable {
-	
-	//private String currentUser;
-	
-	
-	
-	
-	
-	Map<Integer, Post> postMap = loadFile("posts.csv");
-	
+
+    // Predefined CSV file
+    Map<Integer, Post> postMap = loadFile("posts.csv");
+
     // Load the posts from the csv file
-	public static Map<Integer, Post> loadFile(String csvFilePath) {
+    public static Map<Integer, Post> loadFile(String csvFilePath) {
         Map<Integer, Post> postMap = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
@@ -72,388 +63,361 @@ public class LoggedInController implements Initializable {
         return postMap;
     }
 
-    
-    
-    
-
-
     @FXML
     private Button logoutButton;
 
     @FXML
     private Label welcomeLabel;
-    
+
     @FXML
     private TextField postId;
-    
+
     @FXML
     private TextField postContent;
-    
+
     @FXML
     private TextField postAuthor;
-    
+
     @FXML
     private TextField postLikes;
-    
+
     @FXML
     private TextField postShares;
-    
+
     @FXML
     private TextField postDate;
-    
+
     @FXML
     private Button postButton;
-    
+
     @FXML
     private Button findButton;
-    
+
     @FXML
     private TextField numberOf;
-    
+
     @FXML
     private TextField deleteId;
-    
+
     @FXML
     private Button deleteButton;
-    
+
     @FXML
     private Button exportButton;
-    
+
     @FXML
     private TextField exportId;
-    
-    
+
     @FXML
     private TextField getpostId;
-    
+
     @FXML
-    private  Button getpostButton;
-    
+    private Button getpostButton;
+
     @FXML
-    private  Button piechartviewButton;
-    
+    private Button piechartviewButton;
+
     @FXML
-    private  Button updradeButton;
-    
+    private Button updradeButton;
+
     @FXML
-    private  Button importButton;
-    
+    private Button importButton;
+
     @FXML
-    private  Button settingsButton;
-    
+    private Button settingsButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	
 
+        // Event handler for the logout button
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Change the scene to the login page
+                DBUtils.changeScene(event, "login.fxml", "LogIn", null, null, null);
+            }
+        });
 
-    	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				DBUtils.changeScene(event, "login.fxml", "LogIn", null, null, null);
-				
-			}
-		});
-    	
-    	
-    	settingsButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				DBUtils.changeScene(event, "settings.fxml", "Settings", null, null, null);
-				
-			}
-		});
-    	
-    	 importButton.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent event) {
-                 FileChooser fileChooser = new FileChooser();
-                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-                 File selectedFile = fileChooser.showOpenDialog(null);
+        // Event handler for the settings button
+        settingsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Change the scene to the settings page
+                DBUtils.changeScene(event, "settings.fxml", "Settings", null, null, null);
+            }
+        });
 
-                 if (selectedFile != null) {
-                     Map<Integer, Post> importedPosts = loadFile(selectedFile.getAbsolutePath());
+        // Event handler for the import button
+        importButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+                File selectedFile = fileChooser.showOpenDialog(null);
 
-                     // Add the imported posts to the existing postMap
-                     postMap.putAll(importedPosts);
+                if (selectedFile != null) {
+                    // Import data from the selected CSV file
+                    Map<Integer, Post> importedPosts = loadFile(selectedFile.getAbsolutePath());
 
-                     showAlert(AlertType.INFORMATION, "Import Successful", "Data from the selected CSV file has been imported.");
-                 }
-             
-             
-             }
-             private void showAlert(AlertType alertType, String title, String content) {
- 		        Alert alert = new Alert(alertType);
- 		        alert.setTitle(title);
- 		        alert.setHeaderText(null);
- 		        alert.setContentText(content);
- 		        alert.showAndWait();
- 		    }
-             
-         });
-    	 
-    	
-    	
-    
-    	piechartviewButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	        
-    	            int low = 0;
-    	            int med = 0;
-    	            int high = 0;
-    	            
-    	            // Iterate through the postMap to categorize shares
-    	            for (Post post : postMap.values()) {
-    	                int shares = post.getShares();
-    	                if (shares >= 1000) {
-    	                    high++;
-    	                } else if (shares >= 100) {
-    	                    med++;
-    	                } else {
-    	                    low++;
-    	                }
-    	            }
-    	            
-    	            try {
-    	                FXMLLoader loader = new FXMLLoader(getClass().getResource("vipAccess.fxml"));
-    	                Parent root = loader.load();
-    	                
-    	                // Get the controller instance
-    	                vipAccessController vipaccesscontroller = loader.getController();
-    	                
-    	                // Call the method on the controller
-    	                vipaccesscontroller.setPieChartContent(low, med, high);
+                    // Add the imported posts to the existing postMap
+                    postMap.putAll(importedPosts);
 
-    	                Scene scene = new Scene(root);
-    	                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    	                currentStage.setScene(scene);
-    	                currentStage.setTitle("VIP ACCESS");
-    	                currentStage.show();
-    	            } catch (IOException e) {
-    	                e.printStackTrace();
-    	            }
-    	        }
-    	    });
+                    showAlert(AlertType.INFORMATION, "Import Successful",
+                            "Data from the selected CSV file has been imported.");
+                }
+            }
 
-    	
-    	
-    	
-    	getpostButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	        try {
-    	            int id = Integer.parseInt(getpostId.getText());
-    	            if (postMap.containsKey(id)) {
-    	                Object postContent = postMap.get(id);
-    	                showAlert(AlertType.INFORMATION, "Post Content", postContent.toString());
-    	            } else {
-    	                showAlert(AlertType.ERROR, "Post Not Found", "Sorry, the post does not exist in the Collection!");
-    	            }
-    	        } catch (NumberFormatException e) {
-    	            showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
-    	        }
-    	    }
+            private void showAlert(AlertType alertType, String title, String content) {
+                Alert alert = new Alert(alertType);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
 
-    	    private void showAlert(AlertType alertType, String title, String content) {
-    	        Alert alert = new Alert(alertType);
-    	        alert.setTitle(title);
-    	        alert.setHeaderText(null);
-    	        alert.setContentText(content);
-    	        alert.showAndWait();
-    	    }
-    	});
+        // Event handler for the pie chart view button
+        piechartviewButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Count the number of posts with low, medium, and high shares
+                int low = 0;
+                int med = 0;
+                int high = 0;
 
-    	
-    
-    	
-    	
+                // Iterate through the postMap to categorize shares
+                for (Post post : postMap.values()) {
+                    int shares = post.getShares();
+                    if (shares >= 1000) {
+                        high++;
+                    } else if (shares >= 100) {
+                        med++;
+                    } else {
+                        low++;
+                    }
+                }
 
-		postButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		        try {
-		            int id = Integer.parseInt(postId.getText());
-		            int likes = Integer.parseInt(postLikes.getText());
-		            int shares = Integer.parseInt(postShares.getText());
-		            String content = postContent.getText();
-		            String author = postAuthor.getText();
-		            String dateTime = postDate.getText();
-		
-		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		            dateFormat.setLenient(false);
-		
-		            try {
-		                Date parsedDate = dateFormat.parse(dateTime);
-		                String result = "Input date and time is valid: " + parsedDate;
-		
-		                // Create and add the new post to the map
-		                Post newPost = new Post(id, content, author, likes, shares, dateTime);
-		                postMap.put(id, newPost);
-		
-		                result += "\nPost added: ID=" + id + ", Content=" + content + ", Author=" + author + ", Likes=" + likes + ", Shares=" + shares + ", Date/Time=" + dateTime;
-		
-		                showAlert(AlertType.INFORMATION, "Post Added", result);
-		            } catch (ParseException e) {
-		                showAlert(AlertType.ERROR, "Invalid Date/Time", "Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
-		            }
-		        } catch (NumberFormatException e) {
-		            showAlert(AlertType.ERROR, "Invalid Input", "Please enter valid numeric values for ID, Likes, and Shares.");
-		        }
-		    }
-		
-		    private void showAlert(AlertType alertType, String title, String content) {
-		        Alert alert = new Alert(alertType);
-		        alert.setTitle(title);
-		        alert.setHeaderText(null);
-		        alert.setContentText(content);
-		        alert.showAndWait();
-		    }
-		});
-    	
-    	
-		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		        try {
-		            int id = Integer.parseInt(deleteId.getText());
-		            if (postMap.containsKey(id)) {
-		                postMap.remove(id);
-		                showAlert(AlertType.INFORMATION, "Post Deleted", "Post with ID " + id + " has been deleted successfully.");
-		            } else {
-		                showAlert(AlertType.ERROR, "Post Not Found", "Post with ID " + id + " does not exist in the Collection.");
-		            }
-		        } catch (NumberFormatException e) {
-		            showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
-		        }
-		    }
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("vipAccess.fxml"));
+                    Parent root = loader.load();
 
-		    private void showAlert(AlertType alertType, String title, String content) {
-		        Alert alert = new Alert(alertType);
-		        alert.setTitle(title);
-		        alert.setHeaderText(null);
-		        alert.setContentText(content);
-		        alert.showAndWait();
-		    }
-		});
+                    // Get the controller instance
+                    vipAccessController vipaccesscontroller = loader.getController();
 
+                    // Call the method on the controller
+                    vipaccesscontroller.setPieChartContent(low, med, high);
 
-    	
-		exportButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		        try {
-		            int postIdToExport = Integer.parseInt(exportId.getText());
-		            Post postToExport = postMap.get(postIdToExport);
+                    Scene scene = new Scene(root);
+                    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    currentStage.setScene(scene);
+                    currentStage.setTitle("VIP ACCESS");
+                    currentStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-		            if (postToExport != null) {
-		                FileChooser fileChooser = new FileChooser();
-		                fileChooser.setTitle("Save Post as CSV");
-		                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        // Event handler for the getpost button
+        getpostButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    int id = Integer.parseInt(getpostId.getText());
+                    if (postMap.containsKey(id)) {
+                        Object postContent = postMap.get(id);
+                        showAlert(AlertType.INFORMATION, "Post Content", postContent.toString());
+                    } else {
+                        showAlert(AlertType.ERROR, "Post Not Found",
+                                "Sorry, the post does not exist in the Collection!");
+                    }
+                } catch (NumberFormatException e) {
+                    showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
+                }
+            }
 
-		                // Show the save file dialog and get the selected file
-		                File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+            private void showAlert(AlertType alertType, String title, String content) {
+                Alert alert = new Alert(alertType);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
 
-		                if (file != null) {
-		                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-		                        String csvData = String.format("%d,%s,%s,%d,%d,%s%n",
-		                                postToExport.getId(), postToExport.getContent(),
-		                                postToExport.getAuthor(), postToExport.getLikes(),
-		                                postToExport.getShares(), postToExport.getDateTime());
+        // Event handler for the post button
+        postButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    int id = Integer.parseInt(postId.getText());
+                    int likes = Integer.parseInt(postLikes.getText());
+                    int shares = Integer.parseInt(postShares.getText());
+                    String content = postContent.getText();
+                    String author = postAuthor.getText();
+                    String dateTime = postDate.getText();
 
-		                        writer.write(csvData);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    dateFormat.setLenient(false);
 
-		                        String successMessage = "Post with ID " + postIdToExport + " has been exported to " + file.getAbsolutePath();
-		                        
-		                      
-		                        showAlert(AlertType.INFORMATION, "Export Successful", successMessage);
-		                    } catch (IOException e) {
-		                        System.err.println("Error writing to the file: " + e.getMessage());
-		                    }
-		                } else {
-		                    System.out.println("Export canceled by the user.");
-		                }
-		            } else {
-		                String errorMessage = "Post with ID " + postIdToExport + " not found.";
-		                
-		               
-		                showAlert(AlertType.ERROR, "Export Failed", errorMessage);
-		            }
-		        } catch (NumberFormatException e) {
-		            String errorMessage = "Invalid input in the Post ID field.";
-		            
-		          
-		            showAlert(AlertType.ERROR, "Export Failed", errorMessage);
-		        }
-		    }
-		    
-		    private void showAlert(AlertType alertType, String title, String content) {
-		        Alert alert = new Alert(alertType);
-		        alert.setTitle(title);
-		        alert.setHeaderText(null);
-		        alert.setContentText(content);
-		        alert.showAndWait();
-		    }
-		});
+                    try {
+                        Date parsedDate = dateFormat.parse(dateTime);
+                        String result = "Input date and time is valid: " + parsedDate;
 
-    	
-   
-    	
-    	
-    	findButton.setOnAction(new EventHandler<ActionEvent>() {
-    	    @Override
-    	    public void handle(ActionEvent event) {
-    	    
-    	    	
-    	    	
-    	        try {
-    	            int n = Integer.parseInt(numberOf.getText());
-    	            StringBuilder Content = new StringBuilder();
-    	            for (int i = 0; i < n; i++) {
-    	                int max = 0;
-    	                int id = 0;
-    	                for (Map.Entry<Integer, Post> entry : postMap.entrySet()) {
-    	                    if (entry.getValue().getLikes() > max) {
-    	                        max = entry.getValue().getLikes();
-    	                        id = entry.getValue().getId();
-    	                    }
-    	                }
-    	                Content.append(postMap.get(id)).append("\n\n");
-    	                postMap.remove(id);
-    	            }
- 
-    	            try {
-    	                FXMLLoader loader = new FXMLLoader(getClass().getResource("toplikes.fxml"));
-    	                Parent root = loader.load();
-    	            
-    	            toplikesController toplikescontroller = loader.getController();
-    	            toplikescontroller.setResultContent(Content.toString());
+                        // Create and add the new post to the map
+                        Post newPost = new Post(id, content, author, likes, shares, dateTime);
+                        postMap.put(id, newPost);
 
-    	            // Show the new page
-    	            Scene scene = new Scene(root);
-    	            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    	            currentStage.setScene(scene);
-    	            currentStage.setTitle("Top Likes");
-    	            currentStage.show();
-    	        } catch (IOException e) {
-    	            e.printStackTrace();
-    	        }
-    	        } catch (NumberFormatException e) {
-    	            
-    	            System.err.println("Invalid input in numberOf: " + numberOf.getText());
-    	        }
-    	    }
-    	});
+                        result += "\nPost added: ID=" + id + ", Content=" + content + ", Author=" + author + ", Likes="
+                                + likes + ", Shares=" + shares + ", Date/Time=" + dateTime;
 
+                        showAlert(AlertType.INFORMATION, "Post Added", result);
+                    } catch (ParseException e) {
+                        showAlert(AlertType.ERROR, "Invalid Date/Time",
+                                "Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    }
+                } catch (NumberFormatException e) {
+                    showAlert(AlertType.ERROR, "Invalid Input",
+                            "Please enter valid numeric values for ID, Likes, and Shares.");
+                }
+            }
 
+            private void showAlert(AlertType alertType, String title, String content) {
+                Alert alert = new Alert(alertType);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
+
+        // Event handler for the delete button
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    int id = Integer.parseInt(deleteId.getText());
+                    if (postMap.containsKey(id)) {
+                        // Remove the post with the specified ID
+                        postMap.remove(id);
+                        showAlert(AlertType.INFORMATION, "Post Deleted",
+                                "Post with ID " + id + " has been deleted successfully.");
+                    } else {
+                        showAlert(AlertType.ERROR, "Post Not Found",
+                                "Post with ID " + id + " does not exist in the Collection.");
+                    }
+                } catch (NumberFormatException e) {
+                    showAlert(AlertType.ERROR, "Invalid Input", "Please enter a valid post ID.");
+                }
+            }
+
+            private void showAlert(AlertType alertType, String title, String content) {
+                Alert alert = new Alert(alertType);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
+
+        // Event handler for the export button
+        exportButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    int postIdToExport = Integer.parseInt(exportId.getText());
+                    Post postToExport = postMap.get(postIdToExport);
+
+                    if (postToExport != null) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Save Post as CSV");
+                        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+                        // Show the save file dialog and get the selected file
+                        File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+
+                        if (file != null) {
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                                String csvData = String.format("%d,%s,%s,%d,%d,%s%n", postToExport.getId(),
+                                        postToExport.getContent(), postToExport.getAuthor(), postToExport.getLikes(),
+                                        postToExport.getShares(), postToExport.getDateTime());
+
+                                writer.write(csvData);
+
+                                String successMessage = "Post with ID " + postIdToExport + " has been exported to "
+                                        + file.getAbsolutePath();
+
+                                showAlert(AlertType.INFORMATION, "Export Successful", successMessage);
+                            } catch (IOException e) {
+                                System.err.println("Error writing to the file: " + e.getMessage());
+                            }
+                        } else {
+                            System.out.println("Export canceled by the user.");
+                        }
+                    } else {
+                        String errorMessage = "Post with ID " + postIdToExport + " not found.";
+
+                        showAlert(AlertType.ERROR, "Export Failed", errorMessage);
+                    }
+                } catch (NumberFormatException e) {
+                    String errorMessage = "Invalid input in the Post ID field.";
+
+                    showAlert(AlertType.ERROR, "Export Failed", errorMessage);
+                }
+            }
+
+            private void showAlert(AlertType alertType, String title, String content) {
+                Alert alert = new Alert(alertType);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
+
+        // Event handler for the find button
+        findButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    int n = Integer.parseInt(numberOf.getText());
+                    StringBuilder Content = new StringBuilder();
+                    for (int i = 0; i < n; i++) {
+                        int max = 0;
+                        int id = 0;
+                        for (Map.Entry<Integer, Post> entry : postMap.entrySet()) {
+                            if (entry.getValue().getLikes() > max) {
+                                max = entry.getValue().getLikes();
+                                id = entry.getValue().getId();
+                            }
+                        }
+                        Content.append(postMap.get(id)).append("\n\n");
+                        postMap.remove(id);
+                    }
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("toplikes.fxml"));
+                        Parent root = loader.load();
+                        toplikesController toplikescontroller = loader.getController();
+                        toplikescontroller.setResultContent(Content.toString());
+
+                        // Show the new page
+                        Scene scene = new Scene(root);
+                        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        currentStage.setScene(scene);
+                        currentStage.setTitle("Top Likes");
+                        currentStage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid input in numberOf: " + numberOf.getText());
+                }
+            }
+        });
     }
 
     public void setUserInformation(String username) {
         welcomeLabel.setText("Welcome " + username + "!");
     }
-   
-    
-
-    
-    
 }
