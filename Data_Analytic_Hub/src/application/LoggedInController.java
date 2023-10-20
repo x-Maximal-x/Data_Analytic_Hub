@@ -138,6 +138,9 @@ public class LoggedInController implements Initializable {
     @FXML
     private  Button importButton;
     
+    @FXML
+    private  Button settingsButton;
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -152,6 +155,14 @@ public class LoggedInController implements Initializable {
 			}
 		});
     	
+    	
+    	settingsButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				DBUtils.changeScene(event, "settings.fxml", "Settings", null, null, null);
+				
+			}
+		});
     	
     	 importButton.setOnAction(new EventHandler<ActionEvent>() {
              @Override

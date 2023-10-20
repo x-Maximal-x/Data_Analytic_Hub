@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.22640562248995985" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.settingsController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Label layoutX="252.0" layoutY="27.0" text="Settings">
+               <font>
+                  <Font name="Times New Roman" size="29.0" />
+               </font>
+            </Label>
+            <Button fx:id="backButton" layoutX="510.0" layoutY="29.0" mnemonicParsing="false" text="Back" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TextField fx:id="username" layoutX="217.0" layoutY="47.0" />
+            <TextField fx:id="password" layoutX="217.0" layoutY="98.0" />
+            <TextField fx:id="newpassword" layoutX="217.0" layoutY="153.0" />
+            <Label layoutX="113.0" layoutY="51.0" text="Username" />
+            <Label layoutX="113.0" layoutY="111.0" text="Password" />
+            <Label layoutX="99.0" layoutY="157.0" text="New Password" />
+            <Button fx:id="updateButton" layoutX="256.0" layoutY="219.0" mnemonicParsing="false" text="Update" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>
